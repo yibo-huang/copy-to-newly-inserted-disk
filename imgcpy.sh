@@ -4,8 +4,33 @@
 #       So if you launch this device before plugin your device, this script may copy img to your /dev/sda*, etc.
 # History:
 #       2020/11/23    bob     First release
+#       2020/11/24    bob     Second release  
 # Usage:
 #       Plug in your Device first, then launch this script.
+
+loop_flag=1
+while [ "${loop_flag}" != "0" ]
+do
+        if [ $# = 0 ]; then
+                echo "Please specify the file(dir) you want to copy:"
+                read file_path
+        elif [ $# = 1 ]; then
+                file_path=$1
+        else
+                echo "[ERROR] Wrong arguments number. Abort."
+                exit 0
+        fi
+        
+        while [ 1 ]
+        do
+                file_path=$PWD/$file_path
+                test -e ${file_path} && loop_flag=0 && break
+                echo "[ERROR] File(dir) "$file_path" does not exist, please retry:"
+                read file_path
+        done
+done
+
+echo "The file(dir) to be copied is "$file_path
 
 loop_flag=1
 while [ "${loop_flag}" != "0" ]
@@ -55,9 +80,8 @@ if [ ! ${sd_mount_point} ]; then
         sudo mount ${sd_path} ${sd_mount_point}
         test ! $? -eq 0 && echo "[ERROR] mount failed" && exit 0
         echo "The mount point of "$sd_path" is "${sd_mount_point}" (mounted by script automatically)"
-        
 
-        sudo cp $PWD/build/kernel8.img ${sd_mount_point}
+        sudo cp -R $file_path ${sd_mount_point}
         test ! $? -eq 0 && echo "[ERROR] cp failed" && exit 0
 
         sync
@@ -74,7 +98,7 @@ fi
 # if your os mount it for you automatically...
 echo "The mount point of SD card is "${sd_mount_point}" (mounted by OS automatically)"
 
-cp $PWD/build/kernel8.img ${sd_mount_point}
+cp -R $file_path ${sd_mount_point}
 test ! $? -eq 0 && echo "[ERROR] mount failed" && exit 0
 
 sync
