@@ -24,6 +24,8 @@ do
         while [ 1 ]
         do
                 if [ "${res}" = "y" ] || [ "${res}" = "Y" ] || [ "${res}" = "yes" ] || [ "${res}" = "" ]; then
+                        echo "${sd_path}" | grep '/dev/sda.*' && echo "[CAUTION] are you sure "${sd_path}" is your target device ? Please retry." && exit 0
+                        # test $? -eq 0 
                         echo "Continue..."
                         loop_flag=0
                         break
