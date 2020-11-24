@@ -8,12 +8,12 @@
 #       Plug in your Device first, then launch this script.
 
 # Detecting your new plugins...
+
 loop_flag=1
 while [ "${loop_flag}" != "0" ]
 do
         sd_path=$(ls --sort=time /dev/sd* | awk '{print $1}' | sed -n '1p')
         test ! -e ${sd_path} && echo "[ERROR] "$sd_path" does not exit." && exit 0
-        # test ! sda* -eq ${sd_path} && echo "[ERROR] "$sd_path" does not exit." && exit 0
 
         echo "Detect the newest device name = "$sd_path
 
