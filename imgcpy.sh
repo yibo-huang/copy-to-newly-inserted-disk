@@ -23,8 +23,8 @@ do
         while [ 1 ]
         do
                 if [ "${res}" = "y" ] || [ "${res}" = "Y" ] || [ "${res}" = "yes" ] || [ "${res}" = "" ]; then
-                        # Securty check.
-                        echo "${sd_path}" | grep '/dev/sda.*' > null && echo "[CAUTION] Are you sure "${sd_path}" is your target device ? Please retry." && exit 0
+                        # Security check.
+                        echo "${sd_path}" | grep '/dev/sda.*' > /dev/null 2>&1 && echo "[CAUTION] Are you sure "${sd_path}" is your target device ? Please retry." && exit 0
                         echo "Continue..."
                         loop_flag=0
                         break
