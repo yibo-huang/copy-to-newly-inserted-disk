@@ -1,12 +1,15 @@
 #!/bin/bash
 # Program:
-#       This program is used for automatically copying chcore's kernel8.img to your newest plugin device.
-#       So if you launch this device before plugin your device, this script may copy img to your /dev/sda*, etc.
+#       This program is used for automatically copying file to a newest plugin device.
 # History:
 #       2020/11/23    bob     First release
 #       2020/11/24    bob     Second release  
 # Usage:
-#       Plug in your Device first, then launch this script.
+#       e.g
+#               place this file in chos/, and than run "./imgcpy.sh build/kernel8.img".
+# Warning:
+#       If you launch this script before plugin your device, this script may copy file to your /dev/sda*,
+#       which is obviously a wrong behaviour. (The script will do the secrity check for you, so don't worry)
 
 loop_flag=1
 while [ "${loop_flag}" != "0" ]
