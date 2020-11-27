@@ -12,5 +12,5 @@
 * Then it copies the file you specified to the mountpoint of target device.
 * It won't make any changes to system.
 
-### Note
+### Note:
 * Because /dev/sda* is usually our computer's hard disk. So in case of copying file to the wrong place, this script will do a secrity check for you.
