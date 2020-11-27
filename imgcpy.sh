@@ -1,14 +1,12 @@
 #!/bin/bash
-# Program:
-#       This program is used for automatically copying file to a newest plugin device.
-# History:
-#       2020/11/23    bob     First release
-#       2020/11/24    bob     Second release  
+# Description:
+#       This script is used for automatically copying file to a newly inserted device.
+#
 # Usage:
-#       e.g
-#               place this file in chos/, and than run "./imgcpy.sh build/kernel8.img".
-# Warning:
-#       If you launch this script before plugin your device, this script may copy file to your /dev/sda*,
+#       ./imgcpy.sh build/kernel8.img
+# 
+# Attention:
+#       If you launch this script before plugin your device, this script may copy file to /dev/sda*,
 #       which is obviously a wrong behaviour. (The script will do the secrity check for you, so don't worry)
 
 loop_flag=1
@@ -71,11 +69,11 @@ done
 sd_mount_point=$(mount -l | grep ${sd_path} | awk '{print $3}' | sed -n '1p')
 test ! $? -eq 0 && echo "[ERROR] Detect mount point failed" && exit 0
 
-# if your os doesn't mount it for you automatically...
+# if os doesn't mount it automatically...
 # then create a new folder ~/sdcard_tmp123456789 and mount it.
-# after the full operation is done, the folder will be deleted.
 if [ ! ${sd_mount_point} ]; then
-        sd_mount_point=/home/$USER/sdcard_tmp64613167asdfdqewr          # unique folder name
+        # use a unique folder name
+        sd_mount_point=/home/$USER/sdcard_tmp64613167asdfdqewr
 
         # create mount point if it doesn't exit.
         test ! -d ${sd_mount_point} && mkdir ${sd_mount_point}
@@ -89,16 +87,19 @@ if [ ! ${sd_mount_point} ]; then
 
         sync
         echo "Finish copying Kernel8.img to "$sd_path
+
+        # umount device
         sudo umount ${sd_mount_point}
         test ! $? -eq 0 && echo "[ERROR] umount failed" && exit 0
 
+        # delete mount point
         sudo rm -r ${sd_mount_point}
         test ! $? -eq 0 && echo "[ERROR] rm failed" && exit 0
         
         exit 0
 fi
 
-# if your os mount it for you automatically...
+# if os mount it automatically...
 echo "The mount point of SD card is "${sd_mount_point}" (mounted by OS automatically)"
 
 cp -R $file_path ${sd_mount_point}
