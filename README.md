@@ -1,4 +1,4 @@
-# Autocpy
+# copy files to a newly inserted disk
 ### DESCRIPTION:
 * A bash script for copying a file to a newly inserted device
 
